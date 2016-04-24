@@ -63,7 +63,7 @@ class Tracker(object):
 
 # This is all commented out because it's extra work not needed for tracking
 				# ensures the thing it's detecting is not too small and a mistake
-				if radius > 1:
+				if radius > 0:
 					# draws a circle around our tracked thing. This is mostly for testing to see how 
 					# this ends up working
 					cv2.circle(frame, (int(x),int(y)), int(radius),(0,0,0),2)

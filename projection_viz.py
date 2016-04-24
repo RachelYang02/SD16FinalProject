@@ -87,12 +87,12 @@ class Model(object):
 		if xdist == 0 or ydist == 0:                #cannot divide by zero
 			xdist = 0.0001
 			ydist = 0.0001
-		xForce = creature.mass  / ((xdist) * 1000)
-		yForce = creature.mass  / ((ydist) * 1000)
+		xForce = creature.mass  / ((xdist) * 10000)
+		yForce = creature.mass  / ((ydist) * 10000)
 
 
-		creature.vx -= int(xForce)
-		creature.vy -= int(yForce)
+		creature.vx += int(xForce)
+		creature.vy += int(yForce)
 
 	def __str__(self):
 		return '{}, {}'.format(self.tracker.center[0], self.tracker.center[1])
@@ -109,7 +109,7 @@ class Model(object):
 			if creature1.y <= 0 or creature1.y >= self.screen_size[1]:
 				creature1.vy *= -1
 
-			#self.tracker_force(creature1)
+			self.tracker_force(creature1)
 
 		for creature in self.creature_list:
 			print creature
