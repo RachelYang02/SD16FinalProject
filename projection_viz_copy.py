@@ -18,8 +18,8 @@ class Model(object):
 		dx, dy = creature1.x - creature2.x, creature1.y - creature2.y
 		distance = math.sqrt(dx**2 + dy**2)
 		force = creature1.mass*creature2.mass/(distance**2)
-		force_x = 
-		force_y = 
+		# force_x = 
+		# force_y = 
 
 	def update(self):
 		self.creature1.update()

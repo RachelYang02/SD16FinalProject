@@ -48,7 +48,7 @@ class Tracker(object):
 			mask = cv2.erode(mask, None, iterations=2)
 			mask = cv2.dilate(mask, None, iterations=2)
 
-			# finds the contour in the mask an initializes the storage for ball location
+			# finds the contour in the mask and initializes the storage for ball location
 			cnts = cv2.findContours(mask.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)[-2]
 
 			if len(cnts) > 0:
@@ -76,7 +76,7 @@ class Tracker(object):
 				break
 			if key == ord('w'):
 				cv2.destroyWindow('image')
-			# trakcs the trackbar position and sets colors accordingly
+			# tracks the trackbar position and sets colors accordingly
 			if key == ord('c'):
 				self.colorLow = (cv2.getTrackbarPos('LowB','image'),cv2.getTrackbarPos('LowG','image'),cv2.getTrackbarPos('LowR','image'))
 				self.colorHigh = (cv2.getTrackbarPos('B','image'),cv2.getTrackbarPos('G','image'),cv2.getTrackbarPos('R','image'))
