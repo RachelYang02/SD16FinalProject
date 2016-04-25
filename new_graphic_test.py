@@ -23,8 +23,8 @@ class Matrix(object):
         return self.nodes 
 
     def __str__(self): 
-        nodes = numpy.random.rand(self.density,2) * 2 - 1
-        return 'nodes: {}'.format(nodes)
+        self.nodes = numpy.random.rand(self.density,2) * 2 - 1
+        return 'nodes: {}'.format(self.nodes)
 
 class Model(object):
 
@@ -48,6 +48,7 @@ class View(object):
         ''' THE ISSUE IS THAT THE MATRIX IS NOT RETURNING AN ARRAY TO MY DRAW FUNCTION '''
         # for x in numpy.nditer(matrix): # index through each item of the array
         #     self.screen.blit(circle_png,(x.T)), # each item is a set of coordinates->place circle 
+        print self.matrix.nodes
         self.screen.fill((20, 20, 20))
         pygame.display.update() 
         
@@ -65,9 +66,6 @@ def main():
     model = Model(screen_size)
     matrix = Matrix(node_denisty)
     view = View(node_denisty, screen_size, model, matrix)
-    
-
-    print matrix 
 
     running = True
 
