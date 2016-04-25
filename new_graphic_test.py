@@ -14,16 +14,15 @@ class Matrix(object):
         self.density = density
 
     def update(self): 
-        print self.nodes
-        self.nodes.update
+        self.node_matrix() 
 
     def node_matrix(self):  
-        self.nodes = numpy.random.rand(self.density,2) * 2 - 1
+        # self.nodes = numpy.random.rand(self.density,2) * 2 - 1
+        self.nodes = initial_matrix
 
         return self.nodes 
 
     def __str__(self): 
-        self.nodes = numpy.random.rand(self.density,2) * 2 - 1
         return 'nodes: {}'.format(self.nodes)
 
 class Model(object):
@@ -41,15 +40,21 @@ class View(object):
         self.screen = pygame.display.set_mode(screen_size)
         self.screen.fill(pygame.Color('black'))
         self.matrix = matrix 
+        self.density = density
+        self.screen_size = screen_size
         pygame.display.update() 
 
-    def draw(self, density, model):
+    def draw(self):
         circle_png = pygame.image.load('circle.png')
-        ''' THE ISSUE IS THAT THE MATRIX IS NOT RETURNING AN ARRAY TO MY DRAW FUNCTION '''
-        # for x in numpy.nditer(matrix): # index through each item of the array
-        #     self.screen.blit(circle_png,(x.T)), # each item is a set of coordinates->place circle 
-        print self.matrix.nodes
+        self.screen.blit(circle_png,(900,900))
         self.screen.fill((20, 20, 20))
+        for i in range(0,self.density): # index through each item of the array
+            node = self.matrix.nodes[i]
+            node_x = node[0] * self.screen_size[0]
+            node_y = node[1] * self.screen_size[1]
+            self.screen.blit(circle_png,(node_x, node_y)), # each item is a set of coordinates->place circle 
+        print self.matrix.nodes
+
         pygame.display.update() 
         
 
@@ -63,6 +68,11 @@ def main():
     screen = pygame.display.set_mode(screen_size)
 
     node_denisty = 10
+
+    # Here the initial matrix of nodes is created
+    initial_matrix = numpy.random.rand(node_denisty,2)
+    global initial_matrix
+
     model = Model(screen_size)
     matrix = Matrix(node_denisty)
     view = View(node_denisty, screen_size, model, matrix)
@@ -73,8 +83,9 @@ def main():
         for event in pygame.event.get():
             if event.type == QUIT:
                 running = False
+        matrix.update()
         model.update()
-        view.draw(node_denisty, model)
+        view.draw()
         clock.tick(60)
 
     pygame.quit()
