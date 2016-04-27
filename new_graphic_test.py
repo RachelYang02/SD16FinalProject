@@ -1,9 +1,7 @@
 import pygame
 from pygame.locals import *
 import time
-from pygame import math 
 import random
-import math
 import numpy as np
 from numpy import * 
 
