@@ -8,7 +8,8 @@ import numpy as np
 from numpy import * 
 
 # TO DO 
-# + scaling in make_cart for polar conversion after calcuations 
+# + scaling in make_cart for polar conversion after calcuations
+# + don't forget to scale back down 
 
 class Node(object): 
     ''' Node returns the cart coord that it feeds to View
@@ -28,8 +29,8 @@ class Matrix(object):
         self.matrix = matrix # our house for all of our positions
         self.pngs = pngs # loading list of pngs for nodes 
         self.screen_size = screen_size
-        self.xs = matrix[:,[0]] # This extracts the 1st column of the inital matrix (x values)
-        self.ys = matrix[:,[1]] # This extracts the 2nd column of the inital matrix (y values)
+        self.xs = matrix[:,[0]] # this extracts the 1st column of the inital matrix (x values)
+        self.ys = matrix[:,[1]] # this extracts the 2nd column of the inital matrix (y values)
         self.x = [] # init empty list for make_cart, used in make_n0de
         self.y = [] # init empty list for make_cart, used in make_node 
         self.r = [] # init polar coord array
@@ -76,22 +77,33 @@ class Model(object):
     ''' Takes in the polar matrix (and other parameters) and does all the math. 
         Creates new matrix, feeds matrix to Matrix'''
 
-    def __init__(self, density, matrix): 
+    def __init__(self, density, screen_size, matrix, pngs): 
         self.density = density 
-        self.matrix = matrix.matrix
-        self.transM = np.random.rand(self.density,2) # transformation matrix for vibration
+        self.pngs = pngs
+        self.screen_size = screen_size
+        self.new_matrix = [] 
+        self.matrix = matrix.matrix # get primary matrix from Matrix
+        # self.create_nodes = matrix.make_node()
+
+        # eventually we will use polar matrix to do everything 
+        # self.transM = (np.random.rand(self.density,2) * 2 -1 ) * 100 # transformation matrix for vibration between -1 & 1 * scale 
 
     def radial_motion(self): 
         pass  
 
     def vibration(self): 
-        self.matrix = np.add(self.matrix,self.transM)
+        T = (np.random.rand(self.density,2) * 2 -1 ) * 10 # transformation matrix for vibration between -1 & 1 * scale 
+        self.new_matrix = np.add(self.matrix,T) # translate primary matrix
+        #   THE ISSUE MIGHT BE IN HERE SOMEWHERE? 
+        Matrix(self.density, self.screen_size, self.new_matrix, self.pngs) # feed back into Matrix > Node > View
+        return "matrix" , self.new_matrix, "T", T
 
     def update(self): 
-        self.vibration()  
+        self.vibration() 
+        # self.create_nodes 
 
     def __str__(self): 
-        return 'matrix {} T {}'.format(self.matrix, self.transM)
+        return '{}'.format(self.vibration())
 
 class View(object):
     ''' '''
@@ -105,7 +117,6 @@ class View(object):
         pygame.display.update() 
 
     def draw(self):
-        
         self.screen.fill((20, 20, 20))
         for node in self.nodes: 
             self.screen.blit(node.png,(node.x, node.y)), # place node 
@@ -126,13 +137,14 @@ def main():
     node_density = 50
 
     # Here the initial matrix of nodes is created
-    initial_matrix = np.random.rand(node_density,2) * 2 - 1 
+    initial_matrix = np.random.rand(node_density,2) # * 2 - 1 
+    print 'initial matrix', initial_matrix
             # initial_matrix = np.random.random_integers(500,1000,size=(50,2))
   
     # node = Node(node_density, screen_size) 
     matrix = Matrix(node_density, screen_size, initial_matrix, pngs)
+    model = Model(node_density, screen_size, matrix, pngs) 
     view = View(node_density, screen_size, matrix)
-    model = Model(node_density, matrix) 
 
     running = True
 
@@ -140,9 +152,10 @@ def main():
         for event in pygame.event.get():
             if event.type == QUIT:
                 running = False
+        model.update()
         matrix.update()
         # print matrix 
-        model.update()
+        
         # print model 
         view.draw()
         clock.tick(60)
