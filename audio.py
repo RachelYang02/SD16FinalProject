@@ -36,6 +36,7 @@ class Audio(object):
 				# root mean sqaure so negatives won't matter!
 				# this is pretty typical for intensity analysis
 				self.currentVol = audioop.rms(data,2)
+			print self.currentVol
 
 if __name__ == '__main__':
 

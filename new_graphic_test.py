@@ -1,9 +1,7 @@
 import pygame
 from pygame.locals import *
 import time
-from pygame import math 
 import random
-import math
 import numpy as np
 from numpy import * 
 
@@ -77,12 +75,12 @@ class Model(object):
     ''' Takes in the polar matrix (and other parameters) and does all the math. 
         Creates new matrix, feeds matrix to Matrix'''
 
-    def __init__(self, density, screen_size, matrix, pngs): 
+    def __init__(self, density, screen_size, matrixz, pngs): 
         self.density = density 
         self.pngs = pngs
         self.screen_size = screen_size
         self.new_matrix = [] 
-        self.matrix = matrix.matrix # get primary matrix from Matrix
+        self.matrix = matrixz.matrix # get primary matrix from Matrix
         # self.create_nodes = matrix.make_node()
 
         # eventually we will use polar matrix to do everything 
@@ -95,10 +93,15 @@ class Model(object):
         T = (np.random.rand(self.density,2) * 2 -1 ) * 10 # transformation matrix for vibration between -1 & 1 * scale 
         self.new_matrix = np.add(self.matrix,T) # translate primary matrix
         #   THE ISSUE MIGHT BE IN HERE SOMEWHERE? 
+<<<<<<< HEAD
         Matrix(self.density, self.screen_size, self.new_matrix, self.pngs) # feed back into Matrix > Node > View
         
         return "matrix" , self.new_matrix, "T", T
 
+=======
+        #Matrix(self.density, self.screen_size, self.new_matrix, self.pngs) # feed back into Matrix > Node > View
+        self.matrix = self.new_matrix
+>>>>>>> 8a80dfe66a88bb038abc436f61626d71e9f8fdad
     def update(self): 
         self.vibration() 
         # self.create_nodes 
@@ -129,7 +132,7 @@ def main():
 
     pygame.init()
     clock = pygame.time.Clock() 
-    screen_size = (1000, 1000)
+    screen_size = (1920, 1080)
 
     frame_rate = 60
     screen = pygame.display.set_mode(screen_size)
