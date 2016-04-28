@@ -4,6 +4,11 @@ import time
 import random
 import numpy as np
 from numpy import * 
+from colorTrack import Tracker
+from audio import Audio
+from threading import Thread
+import sys
+
 
 # TO DO 
 # + scaling in make_cart for polar conversion after calcuations
@@ -20,13 +25,13 @@ class Matrix(object):
 
     def vibration(self): 
         if self.direction == True:
-        	self.trans += 0.004
-        	self.coordinates = np.add(self.coordinates,self.trans)
-        	self.direction = False
+            self.trans += 0.004
+            self.coordinates = np.add(self.coordinates,self.trans)
+            self.direction = False
         else:
-        	self.trans -= 0.004
-        	self.coordinates = np.add(self.coordinates,self.trans)
-        	self.direction = True
+            self.trans -= 0.004
+            self.coordinates = np.add(self.coordinates,self.trans)
+            self.direction = True
 
 
 
@@ -68,22 +73,33 @@ def main():
 
     # Here the initial matrix of nodes is created
     initial_matrix = np.random.rand(node_density,2) # * 2 - 1 
+
+    tracka = Tracker()
+    t1 = Thread(target = tracka.track)
+
+    listener = Audio()
+    t2 = Thread(target = listener.collectAudio)
   
     matrix = Matrix(screen_size, initial_matrix)
     view = View(screen_size, matrix, pngs)
 
+    def runLoop():
+        while True:
+            
+            
+            matrix.vibration()
+            view.draw()
+            clock.tick(30)
+            for event in pygame.event.get():
+                if event.type == QUIT:
+                    pygame.quit()
+                    sys.exit()
+    t3 = Thread(target = runLoop)
 
-    while True:
-        
-        
-        matrix.vibration()
-        view.draw()
-        clock.tick(30)
-        for event in pygame.event.get():
-            if event.type == QUIT:
-                pygame.quit()
-                return None
 
+    t1.start()
+    t2.start()
+    t3.start()
 
 
 if __name__ == '__main__': main() 

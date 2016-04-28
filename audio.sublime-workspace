@@ -1,0 +1,363 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"screen",
+				"screen_size	statement"
+			],
+			[
+				"tra",
+				"transformation	statement"
+			],
+			[
+				"i",
+				"i"
+			],
+			[
+				"t",
+				"t	forstmt"
+			],
+			[
+				"cre",
+				"creature_list"
+			],
+			[
+				"crea",
+				"creature"
+			],
+			[
+				"cr",
+				"creatureNum"
+			],
+			[
+				"for",
+				"forces	function"
+			],
+			[
+				"y",
+				"yForce	statement"
+			],
+			[
+				"rep",
+				"repulsion_r"
+			],
+			[
+				"force",
+				"forceConstant	statement"
+			],
+			[
+				"get",
+				"getAudio	function"
+			],
+			[
+				"data",
+				"dataStorage	statement"
+			],
+			[
+				"thres",
+				"threshold	param"
+			],
+			[
+				"sound",
+				"soundData	param"
+			],
+			[
+				"blues",
+				"blues_scale	statement"
+			],
+			[
+				"_add",
+				"_add_swamp	function"
+			],
+			[
+				"swamp",
+				"swamp_coord	statement"
+			],
+			[
+				"swa",
+				"swamp_coord	statement"
+			],
+			[
+				"wor",
+				"wordList	statement"
+			],
+			[
+				"word",
+				"wordFreq	statement"
+			],
+			[
+				"fil",
+				"file_name	param"
+			],
+			[
+				"rain",
+				"raindrop	forstmt"
+			],
+			[
+				"hail",
+				"hailGroup	statement"
+			],
+			[
+				"hai",
+				"hailGrouop	statement"
+			],
+			[
+				"Rain",
+				"rainGroup	statement"
+			],
+			[
+				"x",
+				"xCoor	statement"
+			],
+			[
+				"blo",
+				"blocknumY	statement"
+			],
+			[
+				"block",
+				"blocknumX	statement"
+			],
+			[
+				"blcok",
+				"blockWidth	statement"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 392.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"",
+				"Build: Cancel"
+			]
+		],
+		"width": 449.0
+	},
+	"console":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/home/jon/SD16FinalProject/colorTrack.py",
+		"/home/jon/SD16FinalProject/graphics.py",
+		"/home/jon/InteractiveProgramming/Lamp/LampMain.py",
+		"/home/jon/SD16FinalProject/new_graphic_test.py",
+		"/home/jon/SD16FinalProject/collor",
+		"/home/jon/SD16FinalProject/audio.py",
+		"/home/jon/SD16FinalProject/projection_viz.py",
+		"/home/jon/SD16FinalProject/projection_viz",
+		"/home/jon/ComputationalArt/recursive_art.py",
+		"/usr/local/lib/python2.7/dist-packages/pyqrcode/builder.py",
+		"/home/jon/.bashrc",
+		"/home/jon/projection_viz.py",
+		"/home/jon/PDE2016/pde.py",
+		"/home/jon/InteractiveProgramming/Lamp/rainSprite.py",
+		"/home/jon/Desktop/art_vis.py",
+		"/etc/asound.conf",
+		"/home/jon/Desktop/pyalsaaudio-0.8.2/testAudio.py",
+		"/home/jon/GeneFinder/gene_finder.py",
+		"/home/jon/ClassNotes/profiling/mirror_pairs.py",
+		"/home/jon/ClassNotes/pdb_practice/debugging_exercise_3.py",
+		"/home/jon/ClassNotes/pdb_practice/debugging_exercise_2.py",
+		"/home/jon/ClassNotes/pdb_practice/debugging_exercise_1.py",
+		"/home/jon/SD16FinalProject/audioIn.py",
+		"/home/jon/Toolbox/ToolBox-ComputerVision/face_detect.py",
+		"/home/jon/test.py",
+		"/home/jon/Toolbox/ToolBox-AlgorithmicMusic/blues_solo.py",
+		"/home/jon/Toolbox/ToolBox-AI/astar.py",
+		"/home/jon/Desktop/pde6.py",
+		"/home/jon/Toolbox/astar.py",
+		"/home/jon/Toolbox/ToolBox-WordFrequency/frequency.py",
+		"/home/jon/Toolbox/frequency.py",
+		"/home/jon/InteractiveProgramming/Lamp/text.py",
+		"/home/jon/InteractiveProgramming/Lamp/lampSprite.py",
+		"/home/jon/InteractiveProgramming/Lamp/levelBuild.py",
+		"/home/jon/InteractiveProgramming/Lamp/rainSprite",
+		"/home/jon/Desktop/PyMan/PyMan.py",
+		"/home/jon/InteractiveProgramming/Lamp/images/lamp.png",
+		"/home/jon/InteractiveProgramming/Lamp/titleTex.py",
+		"/home/jon/Desktop/PyMan/level001.py",
+		"/home/jon/Desktop/PyMan/basicSprite.py",
+		"/home/jon/Desktop/PyMan/helpers.py",
+		"/home/jon/InteractiveProgramming/Lamp/levelBuild.pyc",
+		"/home/jon/Toolbox/ToolBox-Pickling/counter.py",
+		"/home/jon/TextMining/analyzeTexts.py",
+		"/home/jon/TextMining/BookDownload.py",
+		"/home/jon/Desktop/PyMan/snakeSprite.py"
+	],
+	"find":
+	{
+		"height": 27.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"view",
+			"clock",
+			"break",
+			"centerx",
+			"frame",
+			"center",
+			"camera",
+			"colorHigh",
+			"colorLow",
+			"hsv",
+			"inp",
+			"1",
+			"nothing",
+			"pi",
+			"house",
+			"self",
+			"black",
+			"self.num",
+			"Lamp",
+			"other",
+			"p",
+			"\n	",
+			"blockWidth",
+			"block_spr",
+			"block_sprites",
+			"screen",
+			"xdist"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"self.colorLow",
+			"self.input"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 27.0
+	},
+	"input":
+	{
+		"height": 33.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "audio.sublime-project",
+	"replace":
+	{
+		"height": 50.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 182.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
