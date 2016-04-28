@@ -96,8 +96,7 @@ class Model(object):
         self.new_matrix = np.add(self.matrix,T) # translate primary matrix
         #   THE ISSUE MIGHT BE IN HERE SOMEWHERE? 
         Matrix(self.density, self.screen_size, self.new_matrix, self.pngs) # feed back into Matrix > Node > View
-        
-        return "matrix" , self.new_matrix, "T", T
+        # return "matrix" , self.new_matrix, "T", T
 
     def update(self): 
         self.vibration() 
@@ -110,7 +109,6 @@ class View(object):
     ''' '''
     def __init__(self, density, screen_size, matrix):
         self.screen = pygame.display.set_mode(screen_size)
-        self.screen.fill((20, 20, 20))        
         self.matrix = matrix 
         self.nodes = self.matrix.node_list
         self.density = density
@@ -118,6 +116,7 @@ class View(object):
         pygame.display.update() 
 
     def draw(self):
+        self.screen.fill((20, 20, 20))
         for node in self.nodes: 
             self.screen.blit(node.png,(node.x, node.y)), # place node 
         pygame.display.update() 
@@ -138,7 +137,7 @@ def main():
 
     # Here the initial matrix of nodes is created
     initial_matrix = np.random.rand(node_density,2) # * 2 - 1 
-    print 'initial matrix', initial_matrix
+    # print 'initial matrix', initial_matrix
             # initial_matrix = np.random.random_integers(500,1000,size=(50,2))
   
     # node = Node(node_density, screen_size) 
@@ -155,7 +154,6 @@ def main():
         model.update()
         matrix.update()
         # print matrix 
-        
         # print model 
         view.draw()
         clock.tick(frame_rate)
