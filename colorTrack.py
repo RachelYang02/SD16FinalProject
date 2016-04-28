@@ -69,7 +69,7 @@ class Tracker(object):
 					cv2.circle(frame, (int(x),int(y)), int(radius),(0,0,0),2)
 			
 			# displays the screen 
-			cv2.imshow('Frame',frame)
+			#cv2.imshow('Frame',frame)
 			# if we press q key, everything quits
 			key = cv2.waitKey(1) & 0xFF
 			if key == ord('q'):
@@ -80,6 +80,7 @@ class Tracker(object):
 			if key == ord('c'):
 				self.colorLow = (cv2.getTrackbarPos('LowB','image'),cv2.getTrackbarPos('LowG','image'),cv2.getTrackbarPos('LowR','image'))
 				self.colorHigh = (cv2.getTrackbarPos('B','image'),cv2.getTrackbarPos('G','image'),cv2.getTrackbarPos('R','image'))
+			#print self.center
 		self.camera.release()
 		cv2.destroyAllWindows()
 
