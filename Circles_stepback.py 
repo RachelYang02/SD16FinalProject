@@ -21,7 +21,7 @@ import sys
 
 class Matrix(object):
     
-    def __init__(self, screen_size, position_matrix, theta_matrix, direction=True):
+    def __init__(self, screen_size, position_matrix, theta_matrix, direction = True):
 
         # For Points 
         self.coordinates = position_matrix # our house for all of our positions
@@ -48,14 +48,8 @@ class Matrix(object):
         self.coordinates = np.concatenate((self.x_matrix,self.y_matrix), axis=1)
         return self.coordinates
 
-    def expansion(self, loud=True):
-        # self.r += .07
-        r_step = 0.1
-        if loud == False:
-            self.r -= r_step * 5
-        else:
-            self.r += r_step
-
+    def expansion(self):
+        self.r += .07
         self.coordinates = self.make_cart(self.r,self.theta)
 
     def vibration(self): 
@@ -68,7 +62,7 @@ class Matrix(object):
             self.coordinates = np.add(self.coordinates,self.trans)
             self.direction = True
 
-    def rotation(self): 
+    def rotation(self):
         ''' The triangles are defined in polar cood. Adding radians to the theta of each triangle rotates
             them at differing speeds. '''  
         # Outer Triangles 
@@ -88,57 +82,27 @@ class Matrix(object):
 
 class View(object):
 
-    def __init__(self, screen_size, matrix, index=0, loud=True): 
+    def __init__(self, screen_size, matrix):
        
         self.screen = pygame.display.set_mode(screen_size)
         self.screen.fill(pygame.Color('black'))
         self.matrix = matrix 
         self.screen_size = screen_size
-        self.index = index
-        self.loud = loud 
         pygame.display.update() 
 
-    def draw(self, loud):
+    def draw(self):
         self.screen.fill((20,20,20))
 
         center_x = self.screen_size[0]/2
         center_y = self.screen_size[1]/2
 
-        if self.loud == True:
-            self.index += 1
-        else:
-            self.index = 0
-
         # This makes multiple rings that expand outwards
         for i in xrange(0,self.matrix.coordinates.size/2):
             for div in range(1,12):
                 scale = 600/div
-                x = self.matrix.coordinates[i,0] * scale + center_x 
-                y = self.matrix.coordinates[i,1] * scale + center_y 
-                pygame.gfxdraw.filled_circle(self.screen,int(x),int(y),1,(70,70,70))
-
-            # This causes expansion and contration 
-            if self.index > 0:
-                for div in xrange(1,self.index):
-                    if self.index % 20:
-                        index = self.index/20
-                    index = self.index/20
-                    scale = index * 240/(div)
-
-                    #need to find radius to determine at what distance we should vanish the dots
-                    x = self.matrix.coordinates[i,0] * scale  
-                    x_shift = x + self.screen_size[0]/2 
-                    y = self.matrix.coordinates[i,1] * scale
-                    y_shift = y + self.screen_size[1]/2 
-
-                    radius = math.sqrt(x**2 + y**2)
-                    if radius > 500:
-                        continue
-                    # self.screen.blit(self.pngs[0],(x_shift,y_shift))
-                    pygame.gfxdraw.filled_circle(self.screen,int(x_shift),int(y_shift),1,(70,70,70))
-
-            else:
-                continue
+                x = int(self.matrix.coordinates[i,0] * scale + center_x)
+                y = int(self.matrix.coordinates[i,1] * scale + center_y) 
+                pygame.gfxdraw.filled_circle(self.screen,x,y,1,(70,70,70))
 
         # This makes the Black Hole 
         pygame.gfxdraw.filled_circle(self.screen,center_x,center_y,100,(20,20,20))
@@ -165,7 +129,7 @@ class View(object):
         # SMALL 
         xs5 = ((np.add(self.matrix.radius,-75)) * np.cos(np.add(self.matrix.theta_CCW_inner,np.pi*2/3))) + center_x  
         ys5 = ((np.add(self.matrix.radius,-75)) * np.sin(np.add(self.matrix.theta_CCW_inner,np.pi*2/3))) + center_y 
-        
+ 
         points_list = [[xs0,ys0],[xs1,ys1],[xs2,ys2],[xs3,ys3],[xs4,ys4],[xs5,ys5]]
 
         # The draws all the nested triangles 
@@ -176,7 +140,6 @@ class View(object):
             pygame.gfxdraw.aapolygon(self.screen,points,(100,15,100))
 
         pygame.display.update()
-        return self.index
 
 def main(): 
     pygame.init()
@@ -203,43 +166,21 @@ def main():
     initial_matrix = np.resize(initial_matrix, (node_density,2))
 
     matrix = Matrix(screen_size, initial_matrix, initial_theta_matrix)
-    view = View(screen_size, matrix) 
+    view = View(screen_size, matrix)
 
     running = True
 
     while running:
-         #if volume > some number
-            #loud = True
-            #matrix.expansion(loud = True)
-            #view.draw()
-        #else:
-        #matrix.expansion()
-        #matrix.expansion(loud = False)
-        #matrix.vibration()
-        #view.draw()
-
-        index = view.draw(loud = True)
-        if index > 120:
-            # print index
-            matrix.rotation() 
-            matrix.expansion(loud = False)
-            view.draw(loud = False)
-        else:
-            matrix.rotation() 
-            matrix.expansion()
-            view.draw(loud = True)
-
         for event in pygame.event.get():
             if event.type == QUIT:
                 running = False
 
-        # and if statement dependant on volume that calls expansion 
-        # matrix.expansion() 
-        # matrix.rotation() 
-        # # matrix.vibration()
-        # # matrix.expansion() 
-        # view.draw()
-        
+        # add if statement dependant on volume that calls expansion 
+        matrix.expansion() 
+        matrix.rotation() 
+        matrix.vibration()
+        matrix.expansion() 
+        view.draw()
         clock.tick(frame_rate)
 
     pygame.quit()
