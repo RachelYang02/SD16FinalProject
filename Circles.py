@@ -1,5 +1,6 @@
 import pygame
 from pygame.locals import *
+from pygame import gfxdraw
 import time
 import random
 import numpy as np
@@ -53,6 +54,8 @@ class Matrix(object):
             self.direction = True
 
          # translate primary matrix
+class Triangle(object):
+    pass 
 
 class View(object):
 
@@ -68,18 +71,46 @@ class View(object):
     def draw(self):
         self.screen.fill((20,20,20))
 
+        # triangle_4_center = (self.screen_size[0]/2 - 115 , self.screen_size[1]/2 - 120)
+
+        # triangle_1 = pygame.transform.rotate(self.pngs[1],90) 
+        # triangle_2 = pygame.transform.rotate(self.pngs[1],180)
+        # triangle_3 = pygame.transform.rotate(self.pngs[1],270)
+        # triangle_4 = pygame.transform.rotate(self.pngs[1],0)
+
+        # self.screen.blit(triangle_1,triangles_center)
+        # self.screen.blit(triangle_2,triangles_center)
+        # self.screen.blit(triangle_3,triangles_center)
+        # self.screen.blit(triangle_4,triangles_center)
+        
+
+
+        # This makes multiple circles that expand outwards
+        centerx = self.screen_size[0]/2
+        centery = self.screen_size[1]/2
+        radius = [100,100,100]
+
         for i in xrange(0,self.matrix.coordinates.size/2):
-            for div in xrange(1,12):
-                scale = 240/div
+            for div in range(1,12):
+                scale = 600/div
                 x = self.matrix.coordinates[i,0] * scale + self.screen_size[0]/2 
                 y = self.matrix.coordinates[i,1] * scale + self.screen_size[1]/2 
                 self.screen.blit(self.pngs[0],(x,y))
+            for i in range(0,360):
+                rad = np.pi*i/180
+                theta = [0+rad, np.pi*2/3+rad, np.pi*4/3+rad]
+                xs = (radius * np.cos(theta)) + centerx  
+                ys = (radius * np.sin(theta)) + centery 
+                points_list = [xs[0],ys[0]],[xs[1],ys[1]],[xs[2],ys[2]]
+                pygame.gfxdraw.aapolygon(self.screen,points_list,(227,225,219))
 
         pygame.display.update()
 
 def main(): 
-    png_0 = pygame.image.load('circle.png')
-    pngs = [png_0]
+    # png_0 = pygame.image.load('circle.png')
+    png_1 = pygame.image.load('circle1.png')
+    png_2 = pygame.image.load('triangles.png')
+    pngs = [png_1,png_2]
 
     pygame.init()
     clock = pygame.time.Clock() 
