@@ -8,12 +8,8 @@ from numpy import *
 import sys
 
 # TO DO 
-# + Making volume control expansion 
-# + Vanishing radius for expansion?
-# + Make more png's for small radii? 
 # + Make rotation speed relative to something? 
-# + Make CW & CCW rotation 
-# + Integrate the CCW and CW arrays into one matrix 
+# + Consolodate all of the Triangle code into loops and indexable arrays 
 
 # Current Plan: 
 # Circles eminate from center thoughout volume durration 
@@ -41,6 +37,10 @@ class Matrix(object):
         self.radius = [100,100,100]
         self.theta_matrix_CW = theta_matrix_CW
         self.theta_matrix_CCW = theta_matrix_CCW
+        self.theta_matrix_CW_inner = theta_matrix_CW
+        self.theta_matrix_CCW_inner = theta_matrix_CCW
+        self.theta_matrix_CW_innermost = theta_matrix_CW
+        self.theta_matrix_CCW_innermost = theta_matrix_CCW
 
     def make_cart(self,r,theta):
         self.x_matrix = r * np.cos(theta)
@@ -63,10 +63,21 @@ class Matrix(object):
             self.direction = True
 
     def rotation(self): 
+        # Outer Triangles 
         rotation_speed = 3
-        self.theta_matrix_CW = np.add(self.theta_matrix_CW, np.pi*rotation_speed/180) # add 1 degree to every corner of triangle
-        self.theta_matrix_CCW = np.add(self.theta_matrix_CCW, -np.pi*rotation_speed/180) # subtract 1 degree to every corner of triangle
-    
+        self.theta_matrix_CW = np.add(self.theta_matrix_CW, np.pi*rotation_speed/180) # add to every corner of triangle
+        self.theta_matrix_CCW = np.add(self.theta_matrix_CCW, -np.pi*rotation_speed/180) # subtract from every corner of triangle
+        
+        # Inner Triangles 
+        faster = 6
+        self.theta_matrix_CW_inner  = np.add(self.theta_matrix_CW_inner,   np.pi*(rotation_speed+faster)/180) # add to every corner of triangle
+        self.theta_matrix_CCW_inner = np.add(self.theta_matrix_CCW_inner, -np.pi*(rotation_speed+faster)/180) # subtract from every corner of triangle
+
+        # Innermost Triangles 
+        fastest = 9
+        self.theta_matrix_CW_innermost  = np.add(self.theta_matrix_CW_innermost,   np.pi*(rotation_speed+fastest)/180) # add to every corner of triangle
+        self.theta_matrix_CCW_innermost = np.add(self.theta_matrix_CCW_innermost, -np.pi*(rotation_speed+fastest)/180) # subtract from every corner of triangle
+
 class View(object):
 
     def __init__(self, screen_size, matrix, pngs):
@@ -92,18 +103,43 @@ class View(object):
                 y = self.matrix.coordinates[i,1] * scale + center_y 
                 self.screen.blit(self.pngs[0],(x,y))
 
-        # This rotates a single triangle 
-        xs1 = (self.matrix.radius * np.cos(self.matrix.theta_matrix_CW)) + center_x  
-        ys1 = (self.matrix.radius * np.sin(self.matrix.theta_matrix_CW)) + center_y 
-
-        xs2 = (self.matrix.radius * np.cos(self.matrix.theta_matrix_CCW)) + center_x  
-        ys2 = (self.matrix.radius * np.sin(self.matrix.theta_matrix_CCW)) + center_y 
-
+        print self.matrix.theta_matrix_CW
+        # This rotates three triangles CW
+        # BIG
+        xs0 = (self.matrix.radius * np.cos(self.matrix.theta_matrix_CW)) + center_x  
+        ys0 = (self.matrix.radius * np.sin(self.matrix.theta_matrix_CW)) + center_y 
+        # MEDIUM
+        xs2 = ((np.add(self.matrix.radius,-50)) * np.cos(np.add(self.matrix.theta_matrix_CW_inner,np.pi/3))) + center_x  
+        ys2 = ((np.add(self.matrix.radius,-50)) * np.sin(np.add(self.matrix.theta_matrix_CW_inner,np.pi/3))) + center_y 
+        # SMALL
+        xs4 = ((np.add(self.matrix.radius,-75)) * np.cos(np.add(self.matrix.theta_matrix_CW_innermost,np.pi*2/3))) + center_x  
+        ys4 = ((np.add(self.matrix.radius,-75)) * np.sin(np.add(self.matrix.theta_matrix_CW_innermost,np.pi*2/3))) + center_y 
+        
+        # This rotates three triangles CCW
+        # BIG
+        xs1 = (self.matrix.radius * np.cos(self.matrix.theta_matrix_CCW)) + center_x  
+        ys1 = (self.matrix.radius * np.sin(self.matrix.theta_matrix_CCW)) + center_y 
+        # MEDIUM
+        xs3 = ((np.add(self.matrix.radius,-50)) * np.cos(np.add(self.matrix.theta_matrix_CCW_inner,np.pi/3))) + center_x  
+        ys3 = ((np.add(self.matrix.radius,-50)) * np.sin(np.add(self.matrix.theta_matrix_CCW_inner,np.pi/3))) + center_y 
+        # SMALL 
+        xs5 = ((np.add(self.matrix.radius,-75)) * np.cos(np.add(self.matrix.theta_matrix_CCW_inner,np.pi*2/3))) + center_x  
+        ys5 = ((np.add(self.matrix.radius,-75)) * np.sin(np.add(self.matrix.theta_matrix_CCW_inner,np.pi*2/3))) + center_y 
+ 
+        points_list0 = [xs0[0],ys0[0]],[xs0[1],ys0[1]],[xs0[2],ys0[2]]
         points_list1 = [xs1[0],ys1[0]],[xs1[1],ys1[1]],[xs1[2],ys1[2]]
         points_list2 = [xs2[0],ys2[0]],[xs2[1],ys2[1]],[xs2[2],ys2[2]]
-            
+        points_list3 = [xs3[0],ys3[0]],[xs3[1],ys3[1]],[xs3[2],ys3[2]]
+        points_list4 = [xs4[0],ys4[0]],[xs4[1],ys4[1]],[xs4[2],ys4[2]]
+        points_list5 = [xs5[0],ys5[0]],[xs5[1],ys5[1]],[xs5[2],ys5[2]]
+
+        pygame.gfxdraw.aapolygon(self.screen,points_list0,(100,15,100)) 
         pygame.gfxdraw.aapolygon(self.screen,points_list1,(100,15,100))
-        pygame.gfxdraw.aapolygon(self.screen,points_list2,(100,15,100))
+        pygame.gfxdraw.aapolygon(self.screen,points_list2,(100,15,100)) 
+        pygame.gfxdraw.aapolygon(self.screen,points_list3,(100,15,100))
+        pygame.gfxdraw.aapolygon(self.screen,points_list4,(100,15,100))
+        pygame.gfxdraw.aapolygon(self.screen,points_list5,(100,15,100))
+
 
         pygame.display.update()
 
@@ -117,7 +153,7 @@ def main():
     clock = pygame.time.Clock() 
     screen_size = (1920, 1080)
 
-    frame_rate = 90
+    frame_rate = 100
 
     node_density = 50
 
@@ -126,8 +162,8 @@ def main():
 
     # Here the initial matrix for the triangles is created 
     # Six triangles total, 3 CW, 3CCW 
-    initial_theta_matrix_CW = np.array([0, np.pi*2/3, np.pi*4/3]) # [np.pi/3, np.pi, 5*np.pi/3])
-    initial_theta_matrix_CCW = np.array([pi, np.pi/3, np.pi*5/3]) 
+    initial_theta_matrix_CW = np.array([0, np.pi*2/3, np.pi*4/3]) #,[np.pi/3, np.pi, 5*np.pi/3]])
+    initial_theta_matrix_CCW = np.array([np.pi, np.pi/3, np.pi*5/3]) 
 
     for i in range(1, node_density):
         theta = i * 2 * math.pi / node_density
