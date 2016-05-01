@@ -12,6 +12,8 @@ import sys
 # + Vanishing radius for expansion?
 # + Make more png's for small radii? 
 # + Make rotation speed relative to something? 
+# + Make CW & CCW rotation 
+# + Integrate the CCW and CW arrays into one matrix 
 
 # Current Plan: 
 # Circles eminate from center thoughout volume durration 
@@ -23,7 +25,7 @@ import sys
 
 class Matrix(object):
     
-    def __init__(self, screen_size, position_matrix, theta_matrix, direction = True):
+    def __init__(self, screen_size, position_matrix, theta_matrix_CW, theta_matrix_CCW, direction = True):
 
         # For Points 
         self.coordinates = position_matrix # our house for all of our positions
@@ -37,8 +39,9 @@ class Matrix(object):
 
         # For Triangles
         self.radius = [100,100,100]
-        self.theta_matrix = theta_matrix
-        
+        self.theta_matrix_CW = theta_matrix_CW
+        self.theta_matrix_CCW = theta_matrix_CCW
+
     def make_cart(self,r,theta):
         self.x_matrix = r * np.cos(theta)
         self.y_matrix = r * np.sin(theta)
@@ -61,9 +64,9 @@ class Matrix(object):
 
     def rotation(self): 
         rotation_speed = 3
-        self.theta_matrix = np.add(self.theta_matrix, np.pi*rotation_speed/180) # add 1 degree to every corner of triangle
+        self.theta_matrix_CW = np.add(self.theta_matrix_CW, np.pi*rotation_speed/180) # add 1 degree to every corner of triangle
+        self.theta_matrix_CCW = np.add(self.theta_matrix_CCW, -np.pi*rotation_speed/180) # subtract 1 degree to every corner of triangle
     
-
 class View(object):
 
     def __init__(self, screen_size, matrix, pngs):
@@ -90,11 +93,17 @@ class View(object):
                 self.screen.blit(self.pngs[0],(x,y))
 
         # This rotates a single triangle 
-        xs = (self.matrix.radius * np.cos(self.matrix.theta_matrix)) + center_x  
-        ys = (self.matrix.radius * np.sin(self.matrix.theta_matrix)) + center_y 
-        points_list = [xs[0],ys[0]],[xs[1],ys[1]],[xs[2],ys[2]]
+        xs1 = (self.matrix.radius * np.cos(self.matrix.theta_matrix_CW)) + center_x  
+        ys1 = (self.matrix.radius * np.sin(self.matrix.theta_matrix_CW)) + center_y 
+
+        xs2 = (self.matrix.radius * np.cos(self.matrix.theta_matrix_CCW)) + center_x  
+        ys2 = (self.matrix.radius * np.sin(self.matrix.theta_matrix_CCW)) + center_y 
+
+        points_list1 = [xs1[0],ys1[0]],[xs1[1],ys1[1]],[xs1[2],ys1[2]]
+        points_list2 = [xs2[0],ys2[0]],[xs2[1],ys2[1]],[xs2[2],ys2[2]]
             
-        pygame.gfxdraw.aapolygon(self.screen,points_list,(100,15,100))
+        pygame.gfxdraw.aapolygon(self.screen,points_list1,(100,15,100))
+        pygame.gfxdraw.aapolygon(self.screen,points_list2,(100,15,100))
 
         pygame.display.update()
 
@@ -114,8 +123,11 @@ def main():
 
     # Here the initial matrix of nodes is created
     initial_matrix = np.array([1, 0])
+
     # Here the initial matrix for the triangles is created 
-    initial_theta_matrix = np.array([0, np.pi*2/3, np.pi*4/3])
+    # Six triangles total, 3 CW, 3CCW 
+    initial_theta_matrix_CW = np.array([0, np.pi*2/3, np.pi*4/3]) # [np.pi/3, np.pi, 5*np.pi/3])
+    initial_theta_matrix_CCW = np.array([pi, np.pi/3, np.pi*5/3]) 
 
     for i in range(1, node_density):
         theta = i * 2 * math.pi / node_density
@@ -126,7 +138,7 @@ def main():
 
     initial_matrix = np.resize(initial_matrix, (node_density,2))
 
-    matrix = Matrix(screen_size, initial_matrix, initial_theta_matrix)
+    matrix = Matrix(screen_size, initial_matrix, initial_theta_matrix_CW, initial_theta_matrix_CCW)
     view = View(screen_size, matrix, pngs)
 
     running = True
