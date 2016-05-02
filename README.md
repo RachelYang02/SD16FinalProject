@@ -41,4 +41,4 @@ Set up a projector on a blank wall in a dark room. Angle the projector so that a
 [Mikhaela Dietch](https://github.com/Mikhaela) | [Jonathan Jacobs](https://github.com/JonathanBJacobs) | [Tehya Stockman](https://github.com/TehyaStockman) | [Rachel Yang](https://github.com/RachelYang02)
 
 ##Website
-http://rachelyang02.github.io/SD16FinalProject/
+https://sites.google.com/site/interactiveprojectedart/
