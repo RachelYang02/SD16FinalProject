@@ -66,25 +66,6 @@ class Matrix(object):
         output_value = ((val - input_interval_start)/input_range) * (output_range) + output_interval_start
         return output_value
 
-    def expansion(self, loud=True):
-        # self.r += .07
-        remap = self.remap_interval(self.audio.currentVol)
-        if loud == False:
-            self.r -= remap * 5
-        else:
-            self.r += remap
-
-        self.coordinates = self.make_cart(self.r,self.theta)
-
-    def vibration(self): 
-        if self.direction == True:
-            self.trans += 0.004
-            self.coordinates = np.add(self.coordinates,self.trans)
-            self.direction = False
-        else:
-            self.trans -= 0.004
-            self.coordinates = np.add(self.coordinates,self.trans)
-            self.direction = True
 
     def rotation(self): 
         ''' The triangles are defined in polar cood. Adding radians to the theta of each triangle rotates
@@ -138,10 +119,7 @@ class View(object):
         center_x = self.screen_size[0] - int(self.remap_interval(self.camera.center[0], 0, 640, 0, 1920))
         center_y = int(self.remap_interval(self.camera.center[1], 0, 480, 0, 1080))
 
-        # if self.loud == True:
-        #     self.index += 1
-        # else:
-        #     self.index = 0
+       
 
         # This makes multiple rings that expand outwards
         for i in xrange(0,self.matrix.coordinates.size/2):
@@ -151,26 +129,7 @@ class View(object):
                 y = self.matrix.coordinates[i,1] * scale + center_y 
                 pygame.gfxdraw.filled_circle(self.screen,int(x),int(y),1,(70,70,70))
 
-            # This causes expansion and contration 
-            # if self.index > 0:
-            #     for div in xrange(1,self.index):
-            #         if self.index % 20:
-            #             index = self.index/20
-            #         index = self.index/20
-            #         scale = index * 240/(div)
-
-            #         #need to find radius to determine at what distance we should vanish the dots
-            #         x = self.matrix.coordinates[i,0] * scale  
-            #         x_shift = x + self.screen_size[0]/2 
-            #         y = self.matrix.coordinates[i,1] * scale
-            #         y_shift = y + self.screen_size[1]/2 
-
-            #         radius = math.sqrt(x**2 + y**2)
-            #         if radius > 500:
-            #             continue
-            #         # self.screen.blit(self.pngs[0],(x_shift,y_shift))
-            #         pygame.gfxdraw.filled_circle(self.screen,int(x_shift),int(y_shift),1,(70,70,70))
-
+           
         # This makes the Black Hole 
         pygame.gfxdraw.filled_circle(self.screen,center_x,center_y,100,(20,20,20))
 
@@ -214,7 +173,7 @@ def main():
     clock = pygame.time.Clock() 
     screen_size = (1920, 1080)
 
-    frame_rate = 100
+    frame_rate = 10
 
     node_density = 50
 
@@ -248,27 +207,6 @@ def main():
 
         while running:
            
-             #if volume > some number
-                #loud = True
-                #matrix.expansion(loud = True)
-                #view.draw()
-            #else:
-            #matrix.expansion()
-            #matrix.expansion(loud = False)
-            #matrix.vibration()
-            #view.draw()
-
-            # index = view.draw(loud = True)
-            # if index > 120:
-            #     # print index
-            #     matrix.rotation() 
-            #     matrix.expansion(loud = False)
-            #     view.draw(loud = False)
-            # else:
-            #     matrix.rotation() 
-            #     matrix.expansion()
-            #     view.draw(loud = True)
-
             for event in pygame.event.get():
                 if event.type == QUIT:
                     running = False
@@ -277,12 +215,6 @@ def main():
                     tracka.running = False
                     cv2.destroyAllWindows()
 
-
-            # and if statement dependant on volume that calls expansion 
-            # matrix.expansion() 
-            # matrix.rotation() 
-            # # matrix.vibration()
-            # # matrix.expansion() 
             matrix.rotation()
             view.draw()
             
