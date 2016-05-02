@@ -21,6 +21,18 @@ import sys
 # Rotate triangles in center 
 # Vibration to be visible (opacities behind cicles)
 
+def remap_interval(val,
+               input_interval_start,                   
+               input_interval_end,
+               output_interval_start,
+               output_interval_end):
+
+    # return output value scaled to output interval
+
+    input_range = float(input_interval_end - input_interval_start)
+    output_range = float(output_interval_end - output_interval_start)
+    output_value = ((val - input_interval_start)/input_range) * (output_range) + output_interval_start
+    return output_value
 
 class Matrix(object):
     
@@ -66,7 +78,6 @@ class Matrix(object):
         output_value = ((val - input_interval_start)/input_range) * (output_range) + output_interval_start
         return output_value
 
-
     def rotation(self): 
         ''' The triangles are defined in polar cood. Adding radians to the theta of each triangle rotates
             them at differing speeds. '''  
@@ -99,27 +110,16 @@ class View(object):
         self.camera = camera
         pygame.display.update() 
 
-    def remap_interval(self, val,
-                   input_interval_start,                   
-                   input_interval_end,
-                   output_interval_start,
-                   output_interval_end):
 
-        # return output value scaled to output interval
-
-        input_range = float(input_interval_end - input_interval_start)
-        output_range = float(output_interval_end - output_interval_start)
-        output_value = ((val - input_interval_start)/input_range) * (output_range) + output_interval_start
-        return output_value
 
     def draw(self):
         volume = self.audio.currentVol
+    	if volume <= 1000:
+			volume = 300
         self.screen.fill((20,20,20))
 
-        center_x = self.screen_size[0] - int(self.remap_interval(self.camera.center[0], 0, 640, 0, 1920))
-        center_y = int(self.remap_interval(self.camera.center[1], 0, 480, 0, 1080))
-
-       
+        center_x = self.screen_size[0] - int(remap_interval(self.camera.center[0], 0, 640, 0, 1920))
+        center_y = int(remap_interval(self.camera.center[1], 0, 480, 0, 1080))
 
         # This makes multiple rings that expand outwards
         for i in xrange(0,self.matrix.coordinates.size/2):
@@ -129,7 +129,6 @@ class View(object):
                 y = self.matrix.coordinates[i,1] * scale + center_y 
                 pygame.gfxdraw.filled_circle(self.screen,int(x),int(y),1,(70,70,70))
 
-           
         # This makes the Black Hole 
         pygame.gfxdraw.filled_circle(self.screen,center_x,center_y,100,(20,20,20))
 
@@ -173,7 +172,7 @@ def main():
     clock = pygame.time.Clock() 
     screen_size = (1920, 1080)
 
-    frame_rate = 10
+    frame_rate = 15
 
     node_density = 50
 
@@ -206,7 +205,7 @@ def main():
         running = True
 
         while running:
-           
+
             for event in pygame.event.get():
                 if event.type == QUIT:
                     running = False
