@@ -20,7 +20,11 @@ import sys
 
 
 class Matrix(object):
-    
+    ''' Matrix controls all transformations to the two main matricies 
+        These matricies are where all graphical movement is defined 
+        Postition Matrix is the master matrix that controls all the points in all the rings. 
+        Theta Matrix is the master matrix that controls all the angles of all the nested rotating triangles ''' 
+
     def __init__(self, screen_size, position_matrix, theta_matrix, direction=True):
 
         # For Points 
@@ -43,18 +47,22 @@ class Matrix(object):
         self.theta_CCW_innermost = theta_matrix[1]
 
     def make_cart(self,r,theta):
+        ''' Converts r & theta to cart. coord. for view.draw'''  
         self.x_matrix = r * np.cos(theta)
         self.y_matrix = r * np.sin(theta)
         self.coordinates = np.concatenate((self.x_matrix,self.y_matrix), axis=1)
         return self.coordinates
 
     def expansion(self, loud=True):
-        # self.r += .07
-        r_step = 0.1
+        ''' Expands the rings dependent on volume,
+            does calc in polar coord
+            calls make_cart to convert polar to cart''' 
+        r_step = 0.1 # how quickly the rings expand outwards 
+
         if loud == False:
-            self.r -= r_step * 5
+            self.r -= r_step * 5 # if Not Loud contract
         else:
-            self.r += r_step
+            self.r += r_step # if Loud expand 
 
         self.coordinates = self.make_cart(self.r,self.theta)
 
@@ -103,7 +111,7 @@ class View(object):
 
         center_x = self.screen_size[0]/2
         center_y = self.screen_size[1]/2
-
+        
         if self.loud == True:
             self.index += 1
         else:
@@ -125,7 +133,7 @@ class View(object):
                     index = self.index/20
                     scale = index * 240/(div)
 
-                    #need to find radius to determine at what distance we should vanish the dots
+                    # need to find radius to determine at what distance we should vanish the dots
                     x = self.matrix.coordinates[i,0] * scale  
                     x_shift = x + self.screen_size[0]/2 
                     y = self.matrix.coordinates[i,1] * scale
@@ -134,7 +142,6 @@ class View(object):
                     radius = math.sqrt(x**2 + y**2)
                     if radius > 500:
                         continue
-                    # self.screen.blit(self.pngs[0],(x_shift,y_shift))
                     pygame.gfxdraw.filled_circle(self.screen,int(x_shift),int(y_shift),1,(70,70,70))
 
             else:
@@ -149,7 +156,7 @@ class View(object):
         xs0 = (self.matrix.radius * np.cos(self.matrix.theta_CW)) + center_x  # converting from polar to cart coord and moving to center of screen
         ys0 = (self.matrix.radius * np.sin(self.matrix.theta_CW)) + center_y 
         # MEDIUM
-        xs1 = ((np.add(self.matrix.radius,-50)) * np.cos(np.add(self.matrix.theta_CW_inner,np.pi/3))) + center_x  # converting to cart, scaling to 50%, and offseting from outer triangle by pi/3 
+        xs1 = ((np.add(self.matrix.radius,-50)) * np.cos(np.add(self.matrix.theta_CW_inner,np.pi/3))) + center_x  # converting to cart, scaling to 50%, and offseting theta from outer triangle by pi/3 
         ys1 = ((np.add(self.matrix.radius,-50)) * np.sin(np.add(self.matrix.theta_CW_inner,np.pi/3))) + center_y 
         # SMALL
         xs2 = ((np.add(self.matrix.radius,-75)) * np.cos(np.add(self.matrix.theta_CW_innermost,np.pi*2/3))) + center_x  # converting, scaling to 25%, and offseting by 2pi/3 
@@ -167,11 +174,11 @@ class View(object):
         ys5 = ((np.add(self.matrix.radius,-75)) * np.sin(np.add(self.matrix.theta_CCW_inner,np.pi*2/3))) + center_y 
         
         points_list = [[xs0,ys0],[xs1,ys1],[xs2,ys2],[xs3,ys3],[xs4,ys4],[xs5,ys5]]
-
-        # The draws all the nested triangles 
-        for point in points_list:  
-            xs = point[0]
-            ys = point[1]
+        
+        # This draws all the nested triangles 
+        for points in points_list: 
+            xs = points[0]
+            ys = points[1]
             points = [xs[0],ys[0]],[xs[1],ys[1]],[xs[2],ys[2]]
             pygame.gfxdraw.aapolygon(self.screen,points,(100,15,100))
 
