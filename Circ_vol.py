@@ -136,9 +136,7 @@ class View(object):
         self.screen.fill((20,20,20))
 
         center_x = self.screen_size[0] - int(self.remap_interval(self.camera.center[0], 0, 640, 0, 1920))
-        print center_x
         center_y = int(self.remap_interval(self.camera.center[1], 0, 480, 0, 1080))
-        print center_y
 
         # if self.loud == True:
         #     self.index += 1
@@ -249,6 +247,7 @@ def main():
         running = True
 
         while running:
+           
              #if volume > some number
                 #loud = True
                 #matrix.expansion(loud = True)
@@ -275,7 +274,7 @@ def main():
                     running = False
                     pygame.quit()
                     sys.exit()
-                    self.tracka.release
+                    tracka.running = False
                     cv2.destroyAllWindows()
 
 

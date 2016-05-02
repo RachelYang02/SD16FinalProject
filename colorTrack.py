@@ -13,6 +13,7 @@ class Tracker(object):
 		self.colorLow = colorLow
 		self.colorHigh = colorHigh	
 		self.center = center
+		self.running = True
 		
 		# apparently this is needed for the trackbars
 		def nothing(x):
@@ -29,14 +30,13 @@ class Tracker(object):
 		# cv2.createTrackbar('LowB','image',0,255,nothing)
 		# cv2.createTrackbar('R','image',0,255,nothing)
 		# cv2.createTrackbar('G','image',0,255,nothing)
-		# cv2.createTrackbar('B','image',0,255,nothing)
-	
+		# cv2.createTrackbar('B','image',0,255,nothing)	
 
 
 	def track(self):
 		self.center = (0,0)
 
-		while 1:
+		while self.running:
 			# ret is boolean for successful frame read
 			ret, frame = self.camera.read()
 
@@ -80,9 +80,9 @@ class Tracker(object):
 			if key == ord('c'):
 				self.colorLow = (cv2.getTrackbarPos('LowB','image'),cv2.getTrackbarPos('LowG','image'),cv2.getTrackbarPos('LowR','image'))
 				self.colorHigh = (cv2.getTrackbarPos('B','image'),cv2.getTrackbarPos('G','image'),cv2.getTrackbarPos('R','image'))
-			#print self.center
 		self.camera.release()
 		cv2.destroyAllWindows()
+		return None
 
 		
 if __name__ == '__main__':

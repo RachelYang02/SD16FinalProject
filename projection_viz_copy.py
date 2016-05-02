@@ -1,6 +1,8 @@
 import sys, os, random, math
 import pygame
 from pygame.locals import *
+import time
+
 
 
 class Model(object):
@@ -130,6 +132,7 @@ def main():
 				sys.exit()
 
 		i += 1
+		time.sleep(10000)
 
 if __name__ == '__main__': main()
 
