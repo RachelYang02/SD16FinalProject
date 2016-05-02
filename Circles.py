@@ -18,7 +18,6 @@ import sys
 # Rotate triangles in center 
 # Vibration to be visible (opacities behind cicles)
 
-
 class Matrix(object):
     ''' Matrix controls all transformations to the two main matricies 
         These matricies are where all graphical movement is defined 
@@ -35,7 +34,6 @@ class Matrix(object):
         self.direction = direction
         self.r = np.sqrt(self.x_matrix**2 + self.y_matrix**2) 
         self.theta = np.arctan2(self.y_matrix,self.x_matrix)
-        self.trans = (np.random.rand(self.coordinates.size/2,2) * 2 - 1 ) * 1000  # self.trans = np.zeros((self.coordinates.size/2,2)) - 0.002
 
         # For Triangles
         self.radius = [100,100,100]
@@ -47,7 +45,8 @@ class Matrix(object):
         self.theta_CCW_innermost = theta_matrix[1]
 
     def make_cart(self,r,theta):
-        ''' Converts r & theta to cart. coord. for view.draw'''  
+        ''' Converts r & theta to cart. coord. 
+            Returns coordinates to expansion'''  
         self.x_matrix = r * np.cos(theta)
         self.y_matrix = r * np.sin(theta)
         self.coordinates = np.concatenate((self.x_matrix,self.y_matrix), axis=1)
@@ -55,30 +54,23 @@ class Matrix(object):
 
     def expansion(self, loud=True):
         ''' Expands the rings dependent on volume,
-            does calc in polar coord
-            calls make_cart to convert polar to cart''' 
+            does calc in polar coord (changes r)
+            calls make_cart to convert polar to cart
+            cart coord for view.draw''' 
         r_step = 0.1 # how quickly the rings expand outwards 
 
         if loud == False:
             self.r -= r_step * 5 # if Not Loud contract
         else:
-            self.r += r_step # if Loud expand 
+            self.r += r_step # else assume Loud and expand 
 
         self.coordinates = self.make_cart(self.r,self.theta)
 
-    def vibration(self): 
-        if self.direction == True:
-            self.trans += 0.004
-            self.coordinates = np.add(self.coordinates,self.trans)
-            self.direction = False
-        else:
-            self.trans -= 0.004
-            self.coordinates = np.add(self.coordinates,self.trans)
-            self.direction = True
-
     def rotation(self): 
-        ''' The triangles are defined in polar cood. Adding radians to the theta of each triangle rotates
-            them at differing speeds. '''  
+        ''' The triangles are defined in polar cood. Adding radians to the theta 
+            of each triangle rotates them at differing speeds.
+            The master Theta Matrix is duplicated and transformed into a matrix 
+            of r & theta for each nested triangle '''  
         # Outer Triangles 
         rotation_speed = 3
         self.theta_CW = np.add(self.theta_CW, np.pi*rotation_speed/180) # add to every corner of triangle > CLOCKWISE
@@ -95,6 +87,10 @@ class Matrix(object):
         self.theta_CCW_innermost = np.add(self.theta_CCW_innermost, -np.pi*(rotation_speed+fastest)/180) 
 
 class View(object):
+    ''' View loops through with master Position Matrix to create multiple rings
+        Number of rings dependent on volume input
+        View converts Triangle Matrix to cart coord and scales/offsets the nested triangles
+        View.draw calculates and puts everything on screen ''' 
 
     def __init__(self, screen_size, matrix, index=0, loud=True): 
        
@@ -107,6 +103,8 @@ class View(object):
         pygame.display.update() 
 
     def draw(self, loud):
+        ''' Draw is where the final transformations of the matricies 
+            are done before drawing onto screen ''' 
         self.screen.fill((20,20,20))
 
         center_x = self.screen_size[0]/2
@@ -190,7 +188,7 @@ def main():
     clock = pygame.time.Clock() 
     screen_size = (1920, 1080)
 
-    frame_rate = 100
+    frame_rate = 60
 
     node_density = 50
 
