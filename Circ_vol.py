@@ -118,13 +118,26 @@ class View(object):
         self.camera = camera
         pygame.display.update() 
 
+    def remap_interval(self, val,
+                   input_interval_start,                   
+                   input_interval_end,
+                   output_interval_start,
+                   output_interval_end):
+
+        # return output value scaled to output interval
+
+        input_range = float(input_interval_end - input_interval_start)
+        output_range = float(output_interval_end - output_interval_start)
+        output_value = ((val - input_interval_start)/input_range) * (output_range) + output_interval_start
+        return output_value
+
     def draw(self):
         volume = self.audio.currentVol
         self.screen.fill((20,20,20))
 
-        center_x = 1920 - int(self.camera.center[0])
+        center_x = self.screen_size[0] - int(self.remap_interval(self.camera.center[0], 0, 640, 0, 1920))
         print center_x
-        center_y = self.camera.center[1]
+        center_y = int(self.remap_interval(self.camera.center[1], 0, 480, 0, 1080))
         print center_y
 
         # if self.loud == True:
@@ -262,6 +275,8 @@ def main():
                     running = False
                     pygame.quit()
                     sys.exit()
+                    self.tracka.release
+                    cv2.destroyAllWindows()
 
 
             # and if statement dependant on volume that calls expansion 
@@ -269,6 +284,7 @@ def main():
             # matrix.rotation() 
             # # matrix.vibration()
             # # matrix.expansion() 
+            matrix.rotation()
             view.draw()
             
             clock.tick(frame_rate)
