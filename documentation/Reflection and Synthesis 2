@@ -1,0 +1,13 @@
+Mikhaela Dietch, Jonathan Jacobs, 
+Tehya Stockman, Rachel Yang
+Software Design
+21 April 2016
+Reflection and Synthesis
+
+FEEDBACK AND DECISIONS
+	Regarding our questions about ROS, we learned that, yes, a listener can detect more than one thing at once, but it may not be necessary to do so for audio. Also, ROS isn’t the most capable at audio-processing, so we need to keep that in mind going forward. While distributed systems may be a stretch goal and something to pursue if and only if we can nail down the initial structure of the ROS nodes, we can separate our node initial structure so that it’s flexible enough to add in this feature easily enough if it’s something we want to explore. Lastly, Andrew seems to have prior experience with and an overall understanding of ROS, so we can use him as a resource if we need help in the future.
+	For the graphics, we came to the conclusion that numpy arrays are more efficient, but maybe not necessary to implement right away. With the obstacles regarding the physics of the “school-of-fish,” there’s a general consensus that we should simplify our graphics first so that we can first focus on integrating the motion/audio detection with the interactive visualizations. This way, we won’t be set back on time or productivity in the project trying to figure out the radii of attraction/repulsion/orientation. If we want to come back to the physics later, we can maybe add an additional attractive force when the distance between two fish is too wide so that they don’t simply disperse.
+
+REVIEW PROCESS REFLECTION
+	We stuck pretty closely with our agenda. Timing-wise, we spent more time on the mini code review for the graphics and had to deal with some technical difficulties. We provided too little context in the beginning because we assumed that there wasn’t much more to expand upon our project idea from the last technical review (the idea/end goal has remained the same), but the reviewers needed an update on what we’ve accomplished so far and a reminder as to how far we wanted to go with our vision. We discovered that our next step should be to simplify graphics and avoid our current complications rather than to try and force something that will set us back on time. Next time, we’ll want to aim the questions less towards Paul and more towards the group as a whole. With the technical difficulties, we could only show Paul and Patrick the problems we were having with the graphics, and it excluded our peers from giving their feedback on that aspect of our technical review.
+

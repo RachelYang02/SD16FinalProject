@@ -1,0 +1,14 @@
+Mikhaela Dietch, Jonathan Jacobs, 
+Tehya Stockman, Rachel Yang
+Software Design
+4 April 2016
+Reflection and Synthesis
+FEEDBACK AND DECISIONS
+	In terms of feedback, we confirmed that people would rather interact with an audio visualization projected on a screen rather than simply looking at projected images moving about, ie: participating and affecting the echoes or image visualizations rather than just looking at the visualizations moving around. Our audience said that using more characteristics of audio input would be more engaging, such as pitch (frequency) or collective amplitude of the sound. 
+	For detecting the person’s interaction with our program, our audience suggested focusing either on the hands, having the person hold brightly-colored balls, or the head, having the person wear a brightly-colored beanie, to track their movement. It was stressed that we need cameras that doesn’t have dynamic adjustment and that we should consider the possibility of placing multiple cameras in the room or changing the position of the camera from behind the person to in front of or even above. Paul also suggested that we could use frame difference to track the person instead of color/object tracking.
+	For audio, Patrick suggested using the Alsaaudio library. Our audience agreed that using a mic pack could be interesting. For visualizations, they suggested that we should look at group dynamics if we were to do a school-of-fish visualization instead of the echoes. Also, if we had to have multiple single fish interacting within a cohesive blob, Paul added that looking at spring interactions between the fish could be helpful, to show the repelling/attraction of the fish with each other.
+
+REVIEW PROCESS REFLECTION
+	We didn’t get as much enthusiastic engagement/feedback from the other teams as we had expected going into the review. We received more involvement and helpful feedback from the instructor (Paul) and the ninja (Patrick) instead. We believe that we provided enough context for our idea; it seemed as though the audience understood what we had in mind for this project.
+	As for new things, Paul showed us some wireless cameras connected to raspberry pis (that also have fish-eye lens extensions) that would help provide no dynamic adjustment, which is what we need for our computer vision to be more accurate. We followed our planned agenda exactly.
+	Next time, we’ll provide less answers to our own questions--it restricted the number/creativity of the ideas that the audience could think of in response. For example, when asking if there were any more characteristics of the audio to include, we probably shouldn’t have said out loud examples such as “pitch” and “volume” because that was all they could think of afterwards. We also should ask more direct and specific questions that we know our audience is capable of answering to get more helpful feedback from them.
