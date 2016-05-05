@@ -24,6 +24,7 @@ class Tracker(object):
 
 
 		#The following is useful for color calibration
+		# uncomment and press 'c' to enact the calibration
 		# cv2.namedWindow('image')
 		# cv2.createTrackbar('LowR','image',0,255,nothing)
 		# cv2.createTrackbar('LowG','image',0,255,nothing)
